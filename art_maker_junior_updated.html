@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Art Maker Junior</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom right, #fde2e4, #e0f7fa, #e1bee7);
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .tabs button {
+      font-size: 1.2rem;
+      padding: 12px 20px;
+      border: none;
+      background-color: #90caf9;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .tabs button:hover {
+      background-color: #64b5f6;
+    }
+    .tabs button:focus {
+      outline: 3px solid #1976d2;
+    }
+    .tabs {
+
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+    .tab-content {
+      display: none;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .canvas {
+      background: #fff;
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 300px;
+      margin-bottom: 10px;
+    }
+    .toolbar button {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 Art Maker Junior</h1>
+
+  <div class="tabs">
+    <button onclick="showTab('create')">สร้างผลงาน</button>
+    <button onclick="showTab('gallery')">ผลงานของฉัน</button>
+    <button onclick="showTab('challenge')">ภารกิจ</button>
+    <button onclick="showTab('profile')">โปรไฟล์</button>
+  </div>
+
+  <div id="create" class="tab-content active">
+    <h2>พื้นที่สร้างสรรค์ผลงาน</h2>
+    <canvas class="canvas" id="canvas" width="500" height="300"></canvas>
+    <div class="toolbar">
+      <button onclick="changeColor('black')">สีดำ</button>
+      <button onclick="changeColor('red')">สีแดง</button>
+      <button onclick="changeColor('blue')">สีน้ำเงิน</button>
+      <button onclick="clearCanvas()">ล้าง</button>
+    </div>
+  </div>
+
+  <div id="gallery" class="tab-content">
+    <h2>ผลงานของฉัน</h2>
+    <p>ฟีเจอร์กำลังพัฒนา...</p>
+  </div>
+
+  <div id="challenge" class="tab-content">
+    <h2>ภารกิจวันนี้</h2>
+    <p>🧠 สร้างภาพในจินตนาการเกี่ยวกับ “เมืองแห่งอนาคต”</p>
+    <textarea rows="4" style="width:100%" placeholder="อธิบายแนวคิดของภาพนี้..."></textarea><br>
+    <button>ส่งผลงาน</button>
+  </div>
+
+  <div id="profile" class="tab-content">
+    <h2>ข้อมูลผู้ใช้</h2>
+    <input type="text" placeholder="ชื่อนักเรียน" style="width:100%"><br><br>
+    <p>คะแนนสะสม: <strong>1,250</strong> ⭐</p>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let color = 'black';
+
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => drawing = false);
+    canvas.addEventListener('mouseout', () => drawing = false);
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(e) {
+      if (!drawing) return;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(e.offsetX, e.offsetY, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function changeColor(c) {
+      color = c;
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script>
+</body>
+</html>
